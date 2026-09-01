@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>社員管理システム | ホーム</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        /* =========================
+           Main
+           ========================= */
+
+        .main {
+            min-height: 100vh;
+
+            padding-top: 64px;
+
+            transition: padding-left 0.2s ease;
+        }
+
+        body.menu-open .main {
+            padding-left: 250px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        /* =========================
+           Page
+           ========================= */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .page-description {
+            margin: 8px 0 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           Welcome
+           ========================= */
+
+        .welcome-card {
+            padding: 28px;
+
+            background-color: #ffffff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .welcome-title {
+            margin: 0 0 8px;
+
+            color: #1f2937;
+
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .welcome-text {
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           Dashboard
+           ========================= */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+
+            margin-top: 20px;
+        }
+
+        .dashboard-card {
+            min-height: 130px;
+
+            padding: 22px;
+
+            background-color: #ffffff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .dashboard-card-title {
+            margin-bottom: 12px;
+
+            color: #6b7280;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .dashboard-card-value {
+            color: #1e3a5f;
+
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .dashboard-card-description {
+            margin-top: 6px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           Overlay
+           ========================= */
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            z-index: 800;
+
+            width: 100%;
+            height: calc(100vh - 64px);
+
+            background-color: rgba(15, 23, 42, 0.25);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.2s ease,
+                visibility 0.2s ease;
+        }
+
+        body.menu-open .sidebar-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* =========================
+           Responsive
+           ========================= */
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                height: 56px;
+                padding: 0 16px;
+            }
+
+            .system-name {
+                font-size: 14px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .sidebar {
+                top: 56px;
+                height: calc(100vh - 56px);
+            }
+
+            .sidebar-overlay {
+                top: 56px;
+                height: calc(100vh - 56px);
+            }
+
+            .main {
+                padding-top: 56px;
+            }
+
+            body.menu-open .main {
+                padding-left: 0;
+            }
+
+            .content {
+                padding: 28px 16px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- ヘッダー -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+
+    <!-- サイドバー -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+
+    <!-- =========================
+     Overlay
+     ========================= -->
+
+    <div class="sidebar-overlay" id="sidebarOverlay">
+    </div>
+
+
+    <!-- =========================
+     Main
+     ========================= -->
+
+    <main class="main">
+
+        <div class="content">
+
+            <section class="page-header">
+
+                <h1 class="page-title">
+                    ホーム
+                </h1>
+
+                <p class="page-description">
+                    社員管理システムのホーム画面です。
+                </p>
+
+            </section>
+
+
+            <section class="welcome-card">
+
+                <h2 class="welcome-title">
+
+                    ようこそ、
+                    <span th:text="${#authentication.name}">
+                        testuser
+                    </span>
+                    さん
+
+                </h2>
+
+                <p class="welcome-text">
+                    社員管理システムへログインしています。
+                    左上のメニューボタンから各機能を利用できます。
+                </p>
+
+            </section>
+
+
+            <section class="dashboard-grid">
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-card-title">
+                        社員数
+                    </div>
+
+                    <div class="dashboard-card-value" th:text="${employeeCount}">
+                        0
+                    </div>
+
+                    <div class="dashboard-card-description">
+                        現在登録されている社員数
+                    </div>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-card-title">
+                        部署数
+                    </div>
+
+                    <div class="dashboard-card-value" th:text="${departmentCount}">
+                        0
+                    </div>
+
+                    <div class="dashboard-card-description">
+                        登録されている部署数
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-card-title">
+                        お知らせ
+                    </div>
+
+                    <div class="dashboard-card-value">
+                        -
+                    </div>
+
+                    <div class="dashboard-card-description">
+                        新しいお知らせ
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script th:src="@{/js/common.js}">
+    </script>
+
+</body>
+
+</html>

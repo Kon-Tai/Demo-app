@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社員管理システム | 社員一覧</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        /* =========================
+           Main
+        ========================= */
+
+        .main {
+            min-height: 100vh;
+            padding-top: 64px;
+            transition: padding-left 0.2s ease;
+        }
+
+        body.menu-open .main {
+            padding-left: 250px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        /* =========================
+           Page Header
+        ========================= */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .page-title-area {
+            min-width: 0;
+        }
+
+        .page-title {
+            margin: 0;
+            color: #111827;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .page-description {
+            margin: 8px 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* =========================
+           Employee Count
+        ========================= */
+
+        .employee-count {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .employee-count strong {
+            margin: 0 3px;
+            color: #1e3a5f;
+            font-size: 18px;
+        }
+
+        /* =========================
+           Search Area
+        ========================= */
+
+        .search-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .search-form {
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+        }
+
+        .search-field {
+            flex: 1;
+        }
+
+        .search-label {
+            display: block;
+            margin-bottom: 7px;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #111827;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .search-input:hover {
+            border-color: #9ca3af;
+        }
+
+        .search-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .search-button {
+            height: 40px;
+            padding: 0 22px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1e3a5f;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #17304f;
+        }
+
+        /* =========================
+           Table
+        ========================= */
+
+        .table-card {
+            overflow: hidden;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .employee-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        .employee-table th {
+            height: 48px;
+            padding: 0 18px;
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e5e7eb;
+            color: #4b5563;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .employee-table td {
+            height: 58px;
+            padding: 0 18px;
+            border-bottom: 1px solid #f0f1f3;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        .employee-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .employee-table tbody tr:hover {
+            background-color: #fafbfc;
+        }
+
+        .employee-id {
+            color: #1e3a5f;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .employee-name {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        .department {
+            color: #4b5563;
+        }
+
+        .position {
+            color: #6b7280;
+        }
+
+        .email {
+            color: #6b7280;
+        }
+
+        /* =========================
+           Detail Button
+        ========================= */
+
+        .detail-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 0 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #374151;
+            font-size: 12px;
+            text-decoration: none;
+            transition:
+                background-color 0.15s ease,
+                border-color 0.15s ease,
+                color 0.15s ease;
+        }
+
+        .detail-button:hover {
+            border-color: #1e3a5f;
+            background-color: #f5f8fb;
+            color: #1e3a5f;
+        }
+
+        /* =========================
+           Empty
+        ========================= */
+
+        .empty-message {
+            padding: 60px 20px;
+            color: #9ca3af;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* =========================
+           Responsive
+        ========================= */
+
+        @media (max-width: 900px) {
+            .content {
+                padding: 30px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                height: 56px;
+                padding: 0 16px;
+            }
+
+            .system-name {
+                font-size: 14px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .sidebar {
+                top: 56px;
+                height: calc(100vh - 56px);
+            }
+
+            .sidebar-overlay {
+                top: 56px;
+                height: calc(100vh - 56px);
+            }
+
+            .main {
+                padding-top: 56px;
+            }
+
+            body.menu-open .main {
+                padding-left: 0;
+            }
+
+            .content {
+                padding: 24px 16px;
+            }
+
+            .page-title {
+                font-size: 21px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-button {
+                width: 100%;
+            }
+
+            .employee-table th,
+            .employee-table td {
+                padding: 0 14px;
+            }
+        }
+
+        .detail-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 70px;
+            height: 34px;
+
+            padding: 0 12px;
+
+            border: 1px solid #1e3a5f;
+            border-radius: 5px;
+
+            background-color: #ffffff;
+            color: #1e3a5f;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition:
+                background-color 0.15s ease,
+                color 0.15s ease;
+        }
+
+        .detail-button:hover {
+            background-color: #1e3a5f;
+            color: #ffffff;
+        }
+
+        .table-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .register-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 42px;
+            padding: 0 20px;
+
+            border: none;
+            border-radius: 5px;
+
+            background-color: #1e3a5f;
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+        .register-button:hover {
+            background-color: #17304f;
+            box-shadow: 0 4px 10px rgba(30, 58, 95, 0.2);
+        }
+
+        .register-button:active {
+            background-color: #132943;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ヘッダー -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+
+    <!-- サイドバー -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+
+    <main class="main">
+
+        <div class="content">
+
+            <!-- ページタイトル -->
+
+            <section class="page-header">
+
+                <div class="page-title-area">
+
+                    <h1 class="page-title">
+                        社員一覧
+                    </h1>
+
+                    <p class="page-description">
+                        登録されている社員の一覧を表示します。
+                    </p>
+
+                </div>
+
+                <div class="employee-count">
+                    登録社員数
+                    <strong th:text="${#lists.size(employees)}">
+                        5
+                    </strong>
+                    名
+                </div>
+
+            </section>
+
+
+            <section class="search-card">
+
+                <form class="search-form" method="get" action="/employees">
+
+                    <div class="search-field">
+
+                        <label class="search-label" for="keyword">
+                            社員検索
+                        </label>
+
+                        <input type="text" id="keyword" name="keyword" class="search-input"
+                            placeholder="社員ID、氏名、部署名などを入力してください" th:value="${keyword}">
+
+                    </div>
+
+                    <button type="submit" class="search-button">
+                        検索
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- =========================
+                 Employee Table
+            ========================= -->
+
+            <section class="table-card">
+
+                <div class="employee-table-wrapper">
+
+                    <table class="employee-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    社員ID
+                                </th>
+
+                                <th>
+                                    氏名
+                                </th>
+
+                                <th>
+                                    部署
+                                </th>
+
+                                <th>
+                                    役職
+                                </th>
+
+                                <th>
+                                    メールアドレス
+                                </th>
+
+                                <th>
+                                    詳細
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="employee : ${employees}">
+
+                                <td th:text="${employee.employeeId}">
+                                    EMP0001
+                                </td>
+
+                                <td th:text="${employee.name}">
+                                    山田 太郎
+                                </td>
+
+                                <td class="department"
+                                    th:text="${employee.department != null ? employee.department.name : '-'}">
+                                    営業部
+                                </td>
+
+                                <td th:text="${employee.position ?: '-'}">
+                                    主任
+                                </td>
+
+
+                                <td th:text="${employee.email ?: '-'}">
+                                    yamada@example.com
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/employees/{id}(id=${employee.id})}" class="detail-button">
+                                        詳細
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                            <!-- 社員が0件の場合 -->
+
+                            <tr th:if="${#lists.isEmpty(employees)}">
+
+                                <td colspan="6" class="empty-message">
+                                    該当する社員がありません。
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+        <div class="table-footer">
+            <a th:href="@{/employees/new}" class="register-button">
+                ＋ 新規登録
+            </a>
+        </div>
+    </main>
+
+    <script th:src="@{/js/common.js}">
+    </script>
+</body>
+
+</html>

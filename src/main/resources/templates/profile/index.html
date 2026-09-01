@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>社員管理システム | アカウント情報</title>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+
+    <style>
+        /* =========================
+           Main
+           ========================= */
+
+        .main {
+            min-height: 100vh;
+
+            padding-top: 64px;
+
+            transition: padding-left 0.2s ease;
+        }
+
+        body.menu-open .main {
+            padding-left: 250px;
+        }
+
+        .content {
+            padding: 40px;
+
+            max-width: 1200px;
+        }
+
+
+        /* =========================
+           Page Header
+           ========================= */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .page-description {
+            margin: 8px 0 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           Profile Overview
+           ========================= */
+
+        .profile-overview {
+            display: flex;
+            align-items: center;
+
+            padding: 28px;
+
+            margin-bottom: 20px;
+
+            background-color: #ffffff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            margin-right: 20px;
+
+            background-color: #eef2f7;
+
+            border-radius: 50%;
+
+            color: #1e3a5f;
+
+            font-size: 32px;
+        }
+
+        .profile-overview-info {
+            min-width: 0;
+        }
+
+        .profile-name {
+            margin: 0;
+
+            color: #1f2937;
+
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .profile-user-id {
+            margin-top: 6px;
+
+            color: #6b7280;
+
+            font-size: 13px;
+        }
+
+        .profile-status {
+            display: inline-flex;
+            align-items: center;
+
+            margin-top: 10px;
+            padding: 4px 10px;
+
+            background-color: #ecfdf5;
+
+            border-radius: 999px;
+
+            color: #047857;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .profile-status::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            margin-right: 6px;
+
+            background-color: #10b981;
+
+            border-radius: 50%;
+        }
+
+
+        /* =========================
+           Information Card
+           ========================= */
+
+        .profile-card {
+            margin-bottom: 20px;
+
+            background-color: #ffffff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.04);
+
+            overflow: hidden;
+        }
+
+        .profile-card-header {
+            padding: 18px 24px;
+
+            background-color: #f9fafb;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .profile-card-title {
+            margin: 0;
+
+            color: #1f2937;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .profile-card-description {
+            margin: 5px 0 0;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+        .profile-card-body {
+            padding: 0 24px;
+        }
+
+
+        /* =========================
+           Information Item
+           ========================= */
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+
+            min-height: 58px;
+
+            border-bottom: 1px solid #f0f1f3;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            width: 180px;
+
+            flex-shrink: 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .profile-value {
+            color: #1f2937;
+
+            font-size: 14px;
+        }
+
+        .profile-value-muted {
+            color: #9ca3af;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           Account Note
+           ========================= */
+
+        .account-note {
+            padding: 14px 16px;
+
+            margin: 20px 0;
+
+            background-color: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+
+            color: #64748b;
+
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           Actions
+           ========================= */
+
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .profile-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 120px;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .profile-button-secondary {
+            background-color: #ffffff;
+
+            border: 1px solid #d1d5db;
+
+            color: #374151;
+        }
+
+        .profile-button-secondary:hover {
+            background-color: #f9fafb;
+        }
+
+
+        /* =========================
+           Responsive
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                height: 56px;
+                padding: 0 16px;
+            }
+
+            .sidebar {
+                top: 56px;
+                height: calc(100vh - 56px);
+            }
+
+            .sidebar-overlay {
+                top: 56px;
+                height: calc(100vh - 56px);
+            }
+
+            .main {
+                padding-top: 56px;
+            }
+
+            body.menu-open .main {
+                padding-left: 0;
+            }
+
+            .content {
+                padding: 28px 16px;
+            }
+
+            .profile-overview {
+                padding: 20px;
+            }
+
+            .profile-avatar {
+                width: 56px;
+                height: 56px;
+                margin-right: 14px;
+                font-size: 26px;
+            }
+
+            .profile-name {
+                font-size: 17px;
+            }
+
+            .profile-card-body {
+                padding: 0 16px;
+            }
+
+            .profile-item {
+                display: block;
+
+                padding: 14px 0;
+            }
+
+            .profile-label {
+                width: auto;
+
+                display: block;
+
+                margin-bottom: 5px;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .profile-button {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         Header
+         ========================= -->
+
+    <div th:replace="~{fragments/header :: header}"></div>
+
+
+    <!-- =========================
+         Sidebar
+         ========================= -->
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+
+    <!-- =========================
+         Overlay
+         ========================= -->
+
+    <div class="sidebar-overlay" id="sidebarOverlay">
+    </div>
+
+
+    <!-- =========================
+         Main
+         ========================= -->
+
+    <main class="main">
+
+        <div class="content">
+
+
+            <!-- =========================
+                 Page Header
+                 ========================= -->
+
+            <section class="page-header">
+
+                <h1 class="page-title">
+                    アカウント情報
+                </h1>
+
+                <p class="page-description">
+                    ログイン中のアカウント情報を確認できます。
+                </p>
+
+            </section>
+
+
+            <!-- =========================
+                 Profile Overview
+                 ========================= -->
+
+            <section class="profile-overview">
+
+                <div class="profile-avatar">
+                    👤
+                </div>
+
+                <div class="profile-overview-info">
+
+                    <!-- 社員情報が存在する場合 -->
+                    <h2 class="profile-name" th:if="${employee != null}" th:text="${employee.name}">
+                        山田 太郎
+                    </h2>
+
+                    <!-- 社員情報が存在しない場合 -->
+                    <h2 class="profile-name" th:unless="${employee != null}">
+                        未登録ユーザー
+                    </h2>
+
+                    <div class="profile-user-id">
+
+                        ユーザーID：
+
+                        <span th:text="${userId}">
+                            testuser
+                        </span>
+
+                    </div>
+
+                    <span class="profile-status">
+                        ログイン中
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 Basic Information
+                 ========================= -->
+
+            <section class="profile-card">
+
+                <div class="profile-card-header">
+
+                    <h2 class="profile-card-title">
+                        基本情報
+                    </h2>
+
+                    <p class="profile-card-description">
+                        登録されている社員情報を表示しています。
+                    </p>
+
+                </div>
+
+
+                <div class="profile-card-body">
+
+
+                    <!-- 社員番号 -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            社員番号
+                        </span>
+
+                        <span class="profile-value" th:if="${employee != null and employee.employeeId != null}"
+                            th:text="${employee.employeeId}">
+                            EMP001
+                        </span>
+
+                        <span class="profile-value-muted"
+                            th:unless="${employee != null and employee.employeeId != null}">
+                            未登録
+                        </span>
+
+                    </div>
+
+
+                    <!-- 氏名 -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            氏名
+                        </span>
+
+                        <span class="profile-value" th:if="${employee != null and employee.name != null}"
+                            th:text="${employee.name}">
+                            山田 太郎
+                        </span>
+
+                        <span class="profile-value-muted" th:unless="${employee != null and employee.name != null}">
+                            未登録
+                        </span>
+
+                    </div>
+
+
+                    <!-- 部署 -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            所属部署
+                        </span>
+
+                        <span class="profile-value"
+                            th:if="${employee != null and employee.department != null and !#strings.isEmpty(employee.department)}"
+                            th:text="${employee.department}">
+                            開発部
+                        </span>
+
+                        <span class="profile-value-muted"
+                            th:unless="${employee != null and employee.department != null and !#strings.isEmpty(employee.department)}">
+                            未登録
+                        </span>
+
+                    </div>
+
+
+                    <!-- 役職 -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            役職
+                        </span>
+
+                        <span class="profile-value"
+                            th:if="${employee != null and employee.position != null and !#strings.isEmpty(employee.position)}"
+                            th:text="${employee.position}">
+                            課長
+                        </span>
+
+                        <span class="profile-value-muted"
+                            th:unless="${employee != null and employee.position != null and !#strings.isEmpty(employee.position)}">
+                            未登録
+                        </span>
+
+                    </div>
+
+
+                    <!-- メールアドレス -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            メールアドレス
+                        </span>
+
+                        <span class="profile-value"
+                            th:if="${employee != null and employee.email != null and !#strings.isEmpty(employee.email)}"
+                            th:text="${employee.email}">
+                            example@example.com
+                        </span>
+
+                        <span class="profile-value-muted"
+                            th:unless="${employee != null and employee.email != null and !#strings.isEmpty(employee.email)}">
+                            未登録
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 Account Information
+                 ========================= -->
+
+            <section class="profile-card">
+
+                <div class="profile-card-header">
+
+                    <h2 class="profile-card-title">
+                        アカウント情報
+                    </h2>
+
+                    <p class="profile-card-description">
+                        システムへのログインに関する情報です。
+                    </p>
+
+                </div>
+
+
+                <div class="profile-card-body">
+
+
+                    <!-- アカウントID -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            アカウントID
+                        </span>
+
+                        <span class="profile-value" th:text="${userId}">
+                            testuser
+                        </span>
+
+                    </div>
+
+
+                    <!-- アカウント状態 -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            アカウント状態
+                        </span>
+
+                        <span class="profile-value">
+                            有効
+                        </span>
+
+                    </div>
+
+
+                    <!-- ログイン状態 -->
+
+                    <div class="profile-item">
+
+                        <span class="profile-label">
+                            ログイン状態
+                        </span>
+
+                        <span class="profile-value">
+                            ログイン中
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-card-body">
+
+                    <div class="account-note">
+                        社員情報を変更する場合は、社員情報管理画面から変更してください。
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 Actions
+                 ========================= -->
+
+            <div class="profile-actions">
+
+                <a th:href="@{/}" class="profile-button profile-button-secondary">
+
+                    ホームへ戻る
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+    <script th:src="@{/js/common.js}">
+    </script>
+
+</body>
+
+</html>

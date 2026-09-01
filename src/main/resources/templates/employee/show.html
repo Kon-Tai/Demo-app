@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>社員詳細 | 社員管理システム</title>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <style>
+        /* =========================
+           Main
+           ========================= */
+
+        .main {
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+            padding: 40px 24px;
+        }
+
+        /* =========================
+           Page Header
+           ========================= */
+
+        .page-header {
+            display: flex;
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .breadcrumb {
+            margin-bottom: 10px;
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+        .breadcrumb a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           Card
+           ========================= */
+
+        .detail-card {
+            background-color: #ffffff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.04);
+
+            overflow: hidden;
+        }
+
+        /* =========================
+           Card Header
+           ========================= */
+
+        .detail-card-header {
+            display: flex;
+            align-items: center;
+
+            padding: 22px 28px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            background-color: #fafbfc;
+        }
+
+        .employee-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 14px;
+
+            border-radius: 50%;
+
+            background-color: #e8eef5;
+
+            color: #1e3a5f;
+
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .employee-header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .employee-name {
+            color: #111827;
+
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .employee-id {
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           Detail Table
+           ========================= */
+
+        .detail-table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        .detail-table th,
+        .detail-table td {
+            padding: 18px 28px;
+
+            border-bottom: 1px solid #eef0f3;
+
+            text-align: left;
+
+            font-size: 14px;
+        }
+
+        .detail-table th {
+            width: 220px;
+
+            background-color: #fafafa;
+
+            color: #4b5563;
+
+            font-weight: 600;
+        }
+
+        .detail-table td {
+            color: #111827;
+        }
+
+        .detail-table tr:last-child th,
+        .detail-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =========================
+           Actions
+           ========================= */
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 24px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 120px;
+            height: 42px;
+
+            padding: 0 18px;
+
+            border-radius: 5px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .button-secondary {
+            border: 1px solid #d1d5db;
+
+            background-color: #ffffff;
+
+            color: #374151;
+        }
+
+        .button-secondary:hover {
+            background-color: #f9fafb;
+        }
+
+        .button-primary {
+            border: 1px solid #1e3a5f;
+
+            background-color: #1e3a5f;
+
+            color: #ffffff;
+        }
+
+        .button-primary:hover {
+            background-color: #17304f;
+        }
+
+        /* =========================
+           Responsive
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 16px;
+            }
+
+            .main {
+                padding: 28px 16px;
+            }
+
+            .page-title {
+                font-size: 21px;
+            }
+
+            .detail-table th,
+            .detail-table td {
+                padding: 14px 16px;
+            }
+
+            .detail-table th {
+                width: 120px;
+            }
+
+            .header-user {
+                display: none;
+            }
+
+            .actions {
+                gap: 10px;
+            }
+
+            .button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main">
+
+        <!-- パンくず -->
+        <div class="breadcrumb">
+            <a th:href="@{/}">
+                ホーム
+            </a>
+
+            <span> / </span>
+
+            <a th:href="@{/employees}">
+                社員一覧
+            </a>
+
+            <span> / 社員詳細</span>
+        </div>
+
+
+        <!-- ページタイトル -->
+        <div class="page-header">
+
+            <h1 class="page-title">
+                社員詳細
+            </h1>
+
+        </div>
+
+
+        <!-- 詳細カード -->
+        <section class="detail-card">
+
+            <!-- カードヘッダー -->
+            <div class="detail-card-header">
+
+                <div class="employee-icon">
+                    社
+                </div>
+
+                <div class="employee-header-info">
+
+                    <div class="employee-name" th:text="${employee.name}">
+                        山田 太郎
+                    </div>
+
+                    <div class="employee-id" th:text="${employee.employeeId}">
+                        EMP0001
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 社員情報 -->
+            <table class="detail-table">
+
+                <tbody>
+
+                    <tr>
+                        <th>
+                            社員ID
+                        </th>
+
+                        <td th:text="${employee.employeeId}">
+                            EMP0001
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>
+                            氏名
+                        </th>
+
+                        <td th:text="${employee.name}">
+                            山田 太郎
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>
+                            部署
+                        </th>
+
+                        <td class="detail-value"
+                            th:text="${employee.department != null ? employee.department.name : '-'}">
+                            営業部
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+                        <th>
+                            役職
+                        </th>
+
+                        <td th:text="${employee.position ?: '-'}">
+                            主任
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>
+                            メールアドレス
+                        </th>
+
+                        <td th:text="${employee.email ?: '-'}">
+                            yamada@example.com
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- ボタン -->
+        <div class="actions">
+
+            <a th:href="@{/employees}" class="button button-secondary">
+
+                ← 社員一覧へ
+
+            </a>
+
+
+            <a th:href="@{/employees/{id}/edit(id=${employee.id})}" class="button button-primary">
+
+                編集
+
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+<script th:src="@{/js/common.js}">
+</script>
+
+</html>

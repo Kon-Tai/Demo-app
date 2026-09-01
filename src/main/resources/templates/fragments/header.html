@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<header th:fragment="header" class="header">
+
+    <div class="header-left">
+
+        <button type="button" class="menu-button" id="menuButton" aria-label="メニューを開く" aria-expanded="false">
+
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+
+        </button>
+
+        <a th:href="@{/}" class="header-logo-link">
+            <div class="header-logo">
+
+                <div class="logo-mark">
+                    社
+                </div>
+
+                <div class="system-name">
+                    社員管理システム
+                </div>
+
+            </div>
+        </a>
+    </div>
+
+    <div class="header-user">
+        <a th:href="@{/profile}" class="header-user-link">
+            <div class="user-icon">
+                👤
+            </div>
+        </a>
+        <div class="user-info">
+
+            <span class="user-label">
+                ログイン中
+            </span>
+            <a th:href="@{/profile}" class="header-user-link">
+                <span class="user-id" th:text="${#authentication.name}">
+                    testuser
+                </span>
+            </a>
+        </div>
+
+    </div>
+
+</header>
+
+</html>

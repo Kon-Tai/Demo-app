@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ログイン | 社員管理システム</title>
+
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/dist/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+
+</head>
+
+<body class="hold-transition login-page">
+
+    <section layout:fragment="content"></section>
+
+    <!-- AdminLTE JS -->
+    <script th:src="@{/webjars/AdminLTE/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
+
+    <!-- ページ固有 JS -->
+    <th:block layout:fragment="scripts"></th:block>
+</body>
+
+</html

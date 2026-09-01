@@ -25,7 +25,23 @@ interface DepartmentRepository : JpaRepository<Department, Long> {
     fun existsByName(name: String): Boolean
 
     /**
+     * 部署名存在チェック（指定IDを除外）
+     */
+    fun existsByNameAndIdNot(
+        name: String,
+        id: Long
+    ): Boolean
+
+    /**
      * 部署コード存在チェック
      */
     fun existsByCode(code: String): Boolean
+
+    /**
+     * 部署コード存在チェック（指定IDを除外）
+     */
+    fun existsByCodeAndIdNot(
+        code: String,
+        id: Long
+    ): Boolean
 }

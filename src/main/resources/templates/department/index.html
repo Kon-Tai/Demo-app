@@ -473,7 +473,17 @@
     <main class="main">
 
         <div class="content">
+            <!-- =========================
+     Message
+     ========================= -->
 
+            <div th:if="${successMessage}" class="message success-message" th:text="${successMessage}">
+                処理が完了しました。
+            </div>
+
+            <div th:if="${errorMessage}" class="message error-message" th:text="${errorMessage}">
+                エラーが発生しました。
+            </div>
             <!-- =========================
                  Page Header
                  ========================= -->

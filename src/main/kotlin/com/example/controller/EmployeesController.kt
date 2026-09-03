@@ -2,6 +2,7 @@ package com.example.controller
 
 import com.example.service.DepartmentService
 import com.example.service.EmployeeService
+import com.example.service.SystemSettingService
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam
 @Controller
 class EmployeeController(
     private val employeeService: EmployeeService,
-    private val departmentService: DepartmentService
+    private val departmentService: DepartmentService,
+    private val systemSettingService: SystemSettingService
 ) {
 
     /**
@@ -128,8 +130,17 @@ class EmployeeController(
 
         val departments = departmentService.findAll()
 
+        val settings = systemSettingService.getSettings()
+
+        val employeeIdPrefix = settings.employeeIdPrefix
+
+        val nextEmployeeId = employeeService.generateNextEmployeeId()
+
         model.addAttribute("departments", departments)
         model.addAttribute("userId", authentication.name)
+
+        model.addAttribute("employeeIdPrefix", employeeIdPrefix)
+        model.addAttribute("nextEmployeeId", nextEmployeeId)
 
         return "employee/new"
     }
@@ -139,8 +150,6 @@ class EmployeeController(
      */
     @PostMapping("/employees")
     fun create(
-        @RequestParam employeeId: String,
-
         @RequestParam name: String,
 
         @RequestParam(required = false)
@@ -154,7 +163,6 @@ class EmployeeController(
     ): String {
 
         val employee = employeeService.create(
-            employeeId = employeeId,
             name = name,
             departmentId = departmentId,
             position = position,

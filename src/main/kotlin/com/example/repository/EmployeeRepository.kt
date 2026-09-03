@@ -20,6 +20,20 @@ interface EmployeeRepository : JpaRepository<Employee, Long> {
     fun findByNameContaining(name: String): List<Employee>
 
     /**
+     * 指定した接頭辞の社員IDの最大値を取得
+     *
+     * 例：
+     * EMP0001
+     * EMP0002
+     * EMP0005
+     *
+     * → EMP0005
+     */
+    fun findTopByEmployeeIdStartingWithOrderByEmployeeIdDesc(
+        prefix: String
+    ): Employee?
+
+    /**
      * 社員検索
      *
      * 社員ID、氏名、部署名、役職、メールアドレスを検索

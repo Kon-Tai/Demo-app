@@ -331,28 +331,23 @@
 
 
                 <!-- 社員ID -->
-
                 <div class="form-group">
 
-                    <label class="form-label" for="employeeId">
-
+                    <label class="form-label">
                         社員ID
-
-                        <span class="required">
-                            必須
-                        </span>
-
                     </label>
 
-                    <input type="text" id="employeeId" name="employeeId" class="form-input" placeholder="EMP0006"
-                        required>
+                    <div class="form-input" style="display:flex; align-items:center; background-color:#f9fafb;">
+                        <span th:text="${employeeIdPrefix + '0001'}">
+                            EMP0001
+                        </span>
+                    </div>
 
                     <div class="form-help">
-                        既に登録されている社員IDは使用できません。
+                        社員IDはシステム設定に登録された接頭辞を使用して自動生成されます。
                     </div>
 
                 </div>
-
 
                 <!-- 氏名 -->
 

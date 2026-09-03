@@ -1,48 +1,36 @@
-package com.example.employeemanagement.controller;
+package com.example.controller
 
-import com.example.employeemanagement.entity.SystemSetting;
-import com.example.employeemanagement.service.SystemSettingService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import com.example.entity.SystemSetting
+import com.example.service.SystemSettingService
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 
 @Controller
-@RequestMapping("/settings")
-public class SettingsController {
+class SystemSettingController(
+    private val systemSettingService: SystemSettingService
+) {
 
-    private final SystemSettingService systemSettingService;
+    @GetMapping("/settings")
+    fun index(model: Model): String {
 
-    public SettingsController(
-            SystemSettingService systemSettingService) {
-        this.systemSettingService = systemSettingService;
+        val settings = systemSettingService.getSettings()
+
+        model.addAttribute("settings", settings)
+        model.addAttribute("currentPage", "settings")
+
+        return "setting/index"
     }
 
+    @PostMapping("/settings")
+    fun update(
+        @ModelAttribute("settings") settings: SystemSetting
+    ): String {
 
-    /**
-     * システム設定画面
-     */
-    @GetMapping
-    public String settings(Model model) {
+        systemSettingService.updateSettings(settings)
 
-        SystemSetting settings =
-                systemSettingService.getSettings();
-
-        model.addAttribute("settings", settings);
-        model.addAttribute("currentPage", "settings");
-
-        return "setting/index";
-    }
-
-
-    /**
-     * システム設定保存
-     */
-    @PostMapping
-    public String saveSettings(
-            @ModelAttribute SystemSetting settings) {
-
-        systemSettingService.save(settings);
-
-        return "redirect:/setting/index?saved=true";
+      return "redirect:/settings"
     }
 }

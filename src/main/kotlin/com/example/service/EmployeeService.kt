@@ -77,16 +77,6 @@ class EmployeeService(
         return employeeRepository.save(employee)
     }
 
-    /**
-     * 次の社員IDを取得
-     *
-     * システム設定の接頭辞を使用して
-     * EMP0001
-     * EMP0002
-     * EMP0003
-     * ...
-     * のように自動生成する。
-     */
     fun generateNextEmployeeId(): String {
 
         val settings = systemSettingService.getSettings()

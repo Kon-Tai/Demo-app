@@ -104,35 +104,35 @@ class DepartmentService(
     /**
  * 部署名存在チェック
  */
-fun existsByName(name: String): Boolean {
-    return departmentRepository.existsByName(name)
-}
+    fun existsByName(name: String): Boolean {
+        return departmentRepository.existsByName(name)
+    }
 
 /**
  * 部署コード存在チェック
  */
-fun existsByCode(code: String): Boolean {
-    return departmentRepository.existsByCode(code)
-}
+    fun existsByCode(code: String): Boolean {
+        return departmentRepository.existsByCode(code)
+    }
 
 /**
  * 部署名存在チェック（指定IDを除外）
  */
-fun existsByNameExceptId(
-    name: String,
-    id: Long
-): Boolean {
-    return departmentRepository.existsByNameAndIdNot(name, id)
-}
+    fun existsByNameExceptId(
+        name: String,
+        id: Long
+    ): Boolean {
+        return departmentRepository.existsByNameAndIdNot(name, id)
+    }
 
 /**
  * 部署コード存在チェック（指定IDを除外）
  */
-fun existsByCodeExceptId(
-    code: String,
-    id: Long
-): Boolean {
-    return departmentRepository.existsByCodeAndIdNot(code, id)
-}
+    fun existsByCodeExceptId(
+        code: String,
+        id: Long
+    ): Boolean {
+        return departmentRepository.existsByCodeAndIdNot(code, id)
+    }
 
 }

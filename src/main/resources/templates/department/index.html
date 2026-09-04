@@ -445,37 +445,13 @@
 
 <body>
 
-    <!-- =========================
-         Header
-         ========================= -->
-
     <div th:replace="~{fragments/header :: header}"></div>
-
-
-    <!-- =========================
-         Sidebar
-         ========================= -->
-
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
-
-
-    <!-- =========================
-         Overlay
-         ========================= -->
-
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-
-    <!-- =========================
-         Main
-         ========================= -->
 
     <main class="main">
 
         <div class="content">
-            <!-- =========================
-     Message
-     ========================= -->
 
             <div th:if="${successMessage}" class="message success-message" th:text="${successMessage}">
                 処理が完了しました。
@@ -484,10 +460,6 @@
             <div th:if="${errorMessage}" class="message error-message" th:text="${errorMessage}">
                 エラーが発生しました。
             </div>
-            <!-- =========================
-                 Page Header
-                 ========================= -->
-
             <section class="page-header">
 
                 <h1 class="page-title">
@@ -500,24 +472,17 @@
 
             </section>
 
-
-            <!-- =========================
-                 Toolbar
-                 ========================= -->
-
             <section class="toolbar">
 
                 <form th:action="@{/departments}" method="get" class="search-form">
 
                     <input type="text" name="keyword" class="search-input" placeholder="部署名を検索" th:value="${keyword}">
-
                     <button type="submit" class="button search-button">
 
                         🔍
                         検索
 
                     </button>
-
                 </form>
 
 
@@ -529,11 +494,6 @@
                 </a>
 
             </section>
-
-
-            <!-- =========================
-                 Department List
-                 ========================= -->
 
             <section class="department-card">
 
@@ -623,8 +583,6 @@
                                             編集
 
                                         </a>
-
-
                                         <form th:action="@{/departments/{id}/delete(id=${department.id})}" method="post"
                                             onsubmit="return confirm('この部署を削除しますか？');">
 
@@ -644,12 +602,6 @@
                                 </td>
 
                             </tr>
-
-
-                            <!-- =========================
-                                 Empty
-                                 ========================= -->
-
                             <tr th:if="${departments == null || #lists.isEmpty(departments)}">
 
                                 <td colspan="5" class="empty-message">

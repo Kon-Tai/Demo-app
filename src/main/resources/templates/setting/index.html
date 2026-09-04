@@ -380,36 +380,22 @@
 
 <body>
 
-    <!-- ヘッダー -->
+
     <div th:replace="~{fragments/header :: header}"></div>
-
-
-    <!-- サイドバー -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
-
-
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 
     <main class="main">
 
         <div class="content">
-
-
-            <!-- =========================
-                 Page Header
-            ========================= -->
-
             <section class="page-header">
-
                 <h1 class="page-title">
                     システム設定
                 </h1>
-
                 <p class="page-description">
                     社員管理システムの各種設定を変更できます。
                 </p>
-
             </section>
 
 
@@ -624,17 +610,13 @@
                             <span class="setting-label">
                                 メール通知
                             </span>
-
                             <p class="setting-description">
                                 システムからのメール通知を有効にします。
                             </p>
-
                         </div>
 
                         <label class="toggle">
-
                             <input type="checkbox" name="mailNotification" checked>
-
                             <span class="toggle-slider"></span>
 
                         </label>
@@ -699,7 +681,6 @@
                             <p class="setting-description">
                                 一定時間操作がない場合、自動的にログアウトします。
                             </p>
-
                         </div>
 
                         <select id="sessionTimeout" name="sessionTimeout" class="setting-select">
@@ -782,8 +763,6 @@
         </div>
 
     </main>
-
-
     <script th:src="@{/js/common.js}"></script>
 
 </body>

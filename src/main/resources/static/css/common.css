@@ -42,7 +42,7 @@ body.menu-open .main {
 
 .content {
     padding: 40px;
-    max-width: 1200px;
+    max-width: 2400px;
 }
 
 /* =========================
@@ -378,4 +378,36 @@ body.menu-open .sidebar {
 body.menu-open .sidebar-overlay {
     opacity: 1;
     visibility: visible;
+}
+
+/* =========================
+       Page Header
+       ========================= */
+
+.page-header {
+    width: 100%;
+    max-width: 720px;
+
+    margin: 0 0 30px;
+}
+
+.page-title-area {
+    min-width: 0;
+}
+
+.page-title {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.page-description {
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
 }

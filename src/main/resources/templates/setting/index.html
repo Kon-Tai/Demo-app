@@ -420,27 +420,6 @@
 
                     </div>
 
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <label class="setting-label" for="systemName">
-                                システム名
-                            </label>
-
-                            <p class="setting-description">
-                                ヘッダーなどに表示されるシステム名です。
-                            </p>
-
-                        </div>
-
-                        <input type="text" id="systemName" name="systemName" class="setting-input"
-                            th:value="${settings.systemName}">
-
-                    </div>
-
-
                     <div class="setting-item">
 
                         <div class="setting-info">
@@ -464,15 +443,12 @@
                     <div class="setting-item">
 
                         <div class="setting-info">
-
                             <label class="setting-label" for="timezone">
                                 タイムゾーン
                             </label>
 
                             <p class="setting-description">
-                                システムで使用する標準時刻を設定します。
-                            </p>
-
+                                システムで使用する標準時刻を設定します。</p>
                         </div>
 
                         <select id="timezone" name="timezone" class="setting-select">
@@ -488,28 +464,6 @@
                         </select>
 
                     </div>
-
-                </section>
-
-
-                <!-- =========================
-                     社員管理設定
-                ========================= -->
-
-                <section class="settings-section">
-
-                    <div class="settings-section-header">
-
-                        <h2 class="settings-section-title">
-                            社員管理設定
-                        </h2>
-
-                        <p class="settings-section-description">
-                            社員情報の管理方法に関する設定です。
-                        </p>
-
-                    </div>
-
 
                     <div class="setting-item">
 
@@ -530,233 +484,178 @@
 
                     </div>
 
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <span class="setting-label">
-                                メールアドレスを必須にする
-                            </span>
-
-                            <p class="setting-description">
-                                社員登録時にメールアドレスの入力を必須にします。
-                            </p>
-
-                        </div>
-
-                        <label class="toggle">
-
-                            <input type="checkbox" name="emailRequired" th:checked="${settings.emailRequired}">
-
-
-                            <span class="toggle-slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <span class="setting-label">
-                                退職社員を一覧に表示する
-                            </span>
-
-                            <p class="setting-description">
-                                社員一覧画面で退職済みの社員を表示します。
-                            </p>
-
-                        </div>
-
-                        <label class="toggle">
-
-                            <input type="checkbox" name="showRetiredEmployees"
-                                th:checked="${settings.showRetiredEmployees}">
-                            <span class="toggle-slider"></span>
-
-                        </label>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =========================
+                    <!-- =========================
                      通知設定
                 ========================= -->
 
-                <section class="settings-section">
+                    <section class="settings-section">
 
-                    <div class="settings-section-header">
+                        <div class="settings-section-header">
 
-                        <h2 class="settings-section-title">
-                            通知設定
-                        </h2>
+                            <h2 class="settings-section-title">
+                                通知設定
+                            </h2>
 
-                        <p class="settings-section-description">
-                            システムから送信する通知に関する設定です。
-                        </p>
-
-                    </div>
-
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <span class="setting-label">
-                                メール通知
-                            </span>
-                            <p class="setting-description">
-                                システムからのメール通知を有効にします。
-                            </p>
-                        </div>
-
-                        <label class="toggle">
-                            <input type="checkbox" name="mailNotification" checked>
-                            <span class="toggle-slider"></span>
-
-                        </label>
-
-                    </div>
-
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <span class="setting-label">
-                                社員登録時の通知
-                            </span>
-
-                            <p class="setting-description">
-                                新しい社員が登録された際に管理者へ通知します。
+                            <p class="settings-section-description">
+                                システムから送信する通知に関する設定です。
                             </p>
 
                         </div>
 
-                        <label class="toggle">
 
-                            <input type="checkbox" name="employeeRegistrationNotification" checked>
+                        <div class="setting-item">
 
-                            <span class="toggle-slider"></span>
+                            <div class="setting-info">
 
-                        </label>
+                                <span class="setting-label">
+                                    メール通知
+                                </span>
+                                <p class="setting-description">
+                                    システムからのメール通知を有効にします。
+                                </p>
+                            </div>
 
-                    </div>
+                            <label class="toggle">
+                                <input type="checkbox" name="mailNotification" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
 
-                </section>
+                        </div>
 
 
-                <!-- =========================
+                        <div class="setting-item">
+
+                            <div class="setting-info">
+
+                                <span class="setting-label">
+                                    社員登録時の通知
+                                </span>
+
+                                <p class="setting-description">
+                                    新しい社員が登録された際に管理者へ通知します。
+                                </p>
+
+                            </div>
+
+                            <label class="toggle">
+
+                                <input type="checkbox" name="employeeRegistrationNotification" checked>
+
+                                <span class="toggle-slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =========================
                      セキュリティ設定
                 ========================= -->
 
-                <section class="settings-section">
+                    <section class="settings-section">
 
-                    <div class="settings-section-header">
+                        <div class="settings-section-header">
 
-                        <h2 class="settings-section-title">
-                            セキュリティ設定
-                        </h2>
+                            <h2 class="settings-section-title">
+                                セキュリティ設定
+                            </h2>
 
-                        <p class="settings-section-description">
-                            ログインやセッションに関する設定です。
-                        </p>
-
-                    </div>
-
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <label class="setting-label" for="sessionTimeout">
-                                セッションタイムアウト
-                            </label>
-
-                            <p class="setting-description">
-                                一定時間操作がない場合、自動的にログアウトします。
-                            </p>
-                        </div>
-
-                        <select id="sessionTimeout" name="sessionTimeout" class="setting-select">
-
-                            <option value="15" th:selected="${settings.sessionTimeout == 15}">
-                                15分
-                            </option>
-
-                            <option value="30" th:selected="${settings.sessionTimeout == 30}">
-                                30分
-                            </option>
-
-                            <option value="60" th:selected="${settings.sessionTimeout == 60}">
-                                60分
-                            </option>
-
-                            <option value="120" th:selected="${settings.sessionTimeout == 120}">
-                                120分
-                            </option>
-
-                        </select>
-
-
-                    </div>
-
-
-                    <div class="setting-item">
-
-                        <div class="setting-info">
-
-                            <label class="setting-label" for="loginFailureLimit">
-                                ログイン失敗許容回数
-                            </label>
-
-                            <p class="setting-description">
-                                指定回数ログインに失敗するとアカウントをロックします。
+                            <p class="settings-section-description">
+                                ログインやセッションに関する設定です。
                             </p>
 
                         </div>
 
-                        <select id="loginFailureLimit" name="loginFailureLimit" class="setting-select">
 
-                            <option value="3">
-                                3回
-                            </option>
+                        <div class="setting-item">
 
-                            <option value="5" selected>
-                                5回
-                            </option>
+                            <div class="setting-info">
 
-                            <option value="10">
-                                10回
-                            </option>
+                                <label class="setting-label" for="sessionTimeout">
+                                    セッションタイムアウト
+                                </label>
 
-                        </select>
+                                <p class="setting-description">
+                                    一定時間操作がない場合、自動的にログアウトします。
+                                </p>
+                            </div>
 
-                    </div>
+                            <select id="sessionTimeout" name="sessionTimeout" class="setting-select">
 
-                </section>
+                                <option value="15" th:selected="${settings.sessionTimeout == 15}">
+                                    15分
+                                </option>
+
+                                <option value="30" th:selected="${settings.sessionTimeout == 30}">
+                                    30分
+                                </option>
+
+                                <option value="60" th:selected="${settings.sessionTimeout == 60}">
+                                    60分
+                                </option>
+
+                                <option value="120" th:selected="${settings.sessionTimeout == 120}">
+                                    120分
+                                </option>
+
+                            </select>
 
 
-                <!-- =========================
+                        </div>
+
+
+                        <div class="setting-item">
+
+                            <div class="setting-info">
+
+                                <label class="setting-label" for="loginFailureLimit">
+                                    ログイン失敗許容回数
+                                </label>
+
+                                <p class="setting-description">
+                                    指定回数ログインに失敗するとアカウントをロックします。
+                                </p>
+
+                            </div>
+
+                            <select id="loginFailureLimit" name="loginFailureLimit" class="setting-select">
+
+                                <option value="3">
+                                    3回
+                                </option>
+
+                                <option value="5" selected>
+                                    5回
+                                </option>
+
+                                <option value="10">
+                                    10回
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =========================
                      Footer
                 ========================= -->
 
-                <div class="settings-footer">
+                    <div class="settings-footer">
 
-                    <a th:href="@{/}" class="cancel-button">
-                        キャンセル
-                    </a>
+                        <a th:href="@{/}" class="cancel-button">
+                            キャンセル
+                        </a>
 
-                    <button type="submit" class="save-button">
-                        設定を保存
-                    </button>
+                        <button type="submit" class="save-button">
+                            設定を保存
+                        </button>
 
-                </div>
+                    </div>
 
             </form>
 
